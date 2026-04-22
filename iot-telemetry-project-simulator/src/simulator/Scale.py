@@ -1,17 +1,17 @@
 import random
-from re import fullmatch
+from datetime import datetime
 
 
 class Scale:
     _gross_weight = None
     _net_weight = None
-    #_ticket = None
-    #_random_value_generator()
+    _ticket = None
+    _date_time_scale = None
 
     # CONSTRUCTOR
 
     def __init__(self):
-        #print("aaa")
+
         self._gross_weight = random.uniform(1.50, 10.50)
         self._net_weight = random.uniform(1.50, self._gross_weight)
 
@@ -25,12 +25,21 @@ class Scale:
     def get_ticket(self):
         return self._ticket
 
-# OTRAS FUNCIONES Y/O MÉTODOS
+# PULSAR BOTÓN DE TARA
 
     def press_tare(self):
-        _gross_weight = 0
-        _net_weight = 0
+        self._gross_weight = 0
+        self._net_weight = 0
 
+        print("báscula reiniciada")
+
+# GENERAR UN TICKET
+    def generate_ticket(self):
+        gross_weight = self._gross_weight
+        net_weight = self._net_weight
+        _date_time_scale= datetime.now()
+        print("TICKET")
+        print("fecha y hora: ",_date_time_scale)
 
 
 
