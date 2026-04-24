@@ -1,19 +1,25 @@
 import random
-from datetime import datetime
+from datetime import datetime, timedelta
+import uuid
+
 
 
 class Scale:
+    _device_id = None
     _gross_weight = None
     _net_weight = None
-    _ticket = None
-    _date_time_scale = None
+    _timestamp = None
+
 
     # CONSTRUCTOR
 
     def __init__(self):
 
+        self._device_id = str(uuid.uuid4())
         self._gross_weight = random.uniform(1.50, 10.50)
         self._net_weight = random.uniform(1.50, self._gross_weight)
+        self._timestamp = str(self.timestamp_random())
+
 
 # GETTERS
     def get_gross_weight(self):
@@ -22,8 +28,8 @@ class Scale:
     def get_net_weight(self):
         return self._net_weight
 
-    def get_ticket(self):
-        return self._ticket
+    #def get_ticket(self):
+        #return self._ticket
 
 # PULSAR BOTÓN DE TARA
 
@@ -33,13 +39,19 @@ class Scale:
 
         print("báscula reiniciada")
 
-# GENERAR UN TICKET
-    def generate_ticket(self):
-        gross_weight = self._gross_weight
-        net_weight = self._net_weight
-        _date_time_scale= datetime.now()
-        print("TICKET")
-        print("fecha y hora: ",_date_time_scale)
+# GENERAR FECHA Y HORA RANDOM
+
+    def timestamp_random(self):
+        initial_date = datetime(2010, 1, 1)
+        end_date = datetime.now()
+        delta = end_date - initial_date
+
+        date_random = random.randint(0,delta.days)
+        hour_random = random.randint(0,86400)
+
+        final = initial_date + timedelta(days = date_random, hours = hour_random)
+        return final.strftime('%Y-%m-%d %H:%M:%S')
+
 
 
 
