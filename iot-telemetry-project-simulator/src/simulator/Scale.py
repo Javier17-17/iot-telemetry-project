@@ -11,14 +11,15 @@ class Scale:
     _timestamp = None
 
 
-    # CONSTRUCTOR
+# CONSTRUCTOR
 
     def __init__(self):
 
         self._device_id = str(uuid.uuid4())
-        self._gross_weight = random.uniform(1.50, 10.50)
-        self._net_weight = random.uniform(1.50, self._gross_weight)
-        self._timestamp = str(self.timestamp_random())
+        #self._gross_weight = random.uniform(1.50, 10.50)
+        #self._net_weight = random.uniform(1.50, self._gross_weight)
+        #self._timestamp = str(self.timestamp_random())
+        self.weigh_again(self)
 
 
 # GETTERS
@@ -39,6 +40,15 @@ class Scale:
 
         print("báscula reiniciada")
 
+# VOLVER A PESAR EN LA MISMA BÁSCULA
+
+    def weigh_again(self):
+
+        self._gross_weight = random.uniform(1.50, 10.50)
+        self._net_weight = random.uniform(1.50, self._gross_weight)
+        self._timestamp = str(self.timestamp_random())
+
+
 # GENERAR FECHA Y HORA RANDOM
 
     def timestamp_random(self):
@@ -51,8 +61,3 @@ class Scale:
 
         final = initial_date + timedelta(days = date_random, hours = hour_random)
         return final.strftime('%Y-%m-%d %H:%M:%S')
-
-
-
-
-
