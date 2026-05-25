@@ -1,6 +1,37 @@
 from app.core.database import get_connection
 
-# Aquí se gestiona todo lo relacionado con la base de datos
+
+def create_alarm_if_needed(cursor, data):
+    if data.temperature > 28:
+        cursor.execute(
+            """
+            INSERT INTO alarms (device_id, alarm_type, value, message, timestamp)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (
+                data.device_id,
+                "HIGH_TEMPERATURE",
+                data.temperature,
+                "Temperatura demasiado alta",
+                data.timestamp
+            )
+        )
+
+    if data.humidity > 65:
+        cursor.execute(
+            """
+            INSERT INTO alarms (device_id, alarm_type, value, message, timestamp)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (
+                data.device_id,
+                "HIGH_HUMIDITY",
+                data.humidity,
+                "Humedad demasiado alta",
+                data.timestamp
+            )
+        )
+
 
 def insert_telemetry(data):
     conn = get_connection()
@@ -13,6 +44,8 @@ def insert_telemetry(data):
         """,
         (data.device_id, data.temperature, data.humidity, data.timestamp)
     )
+
+    create_alarm_if_needed(cursor, data)
 
     conn.commit()
     cursor.close()
@@ -34,15 +67,13 @@ def get_all_telemetry():
     cursor.close()
     conn.close()
 
-    # Convertimos a JSON (diccionario)
-    result = []
-    for row in rows:
-        result.append({
+    return [
+        {
             "id": row[0],
             "device_id": row[1],
             "temperature": row[2],
             "humidity": row[3],
             "timestamp": row[4]
-        })
-
-    return result
+        }
+        for row in rows
+    ]

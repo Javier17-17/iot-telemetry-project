@@ -1,106 +1,220 @@
-# IoT Telemetry Project
+# IoT Telemetry Backend
 
-Proyecto de visualización de datos industriales.
+Backend del proyecto de telemetría IoT industrial.
 
-## Estructura
+Permite recibir datos simulados de sensores, guardarlos en PostgreSQL, consultarlos mediante una API REST y generar alarmas automáticas.
 
-- backend: API y lógica
-- frontend: visualización
-- simulator: generación de datos
-- db: base de datos
-- docs: documentación
-
-
-Proyecto de telemetría IoT
-==========================
-
-Este proyecto simula un sistema de telemetría industrial basado en IoT.
-
-Permite generar datos de sensores (simulados), enviarlos a una API, almacenarlos en una base de datos y consultarlos posteriormente.
-
----
-
-## Objetivo del proyecto
-
-El objetivo es construir una arquitectura básica IoT capaz de:
-
-- Generar datos de sensores (temperatura, humedad, etc.)
-- Enviar datos a una API REST
-- Guardar la información en una base de datos PostgreSQL
-- Consultar los datos mediante endpoints GET
-- Preparar el sistema para futuras visualizaciones (Grafana u otros)
-
----
-
-## Arquitectura del sistema
-
-El flujo de datos es el siguiente:
-
-Simulador → Backend (FastAPI) → Base de datos (PostgreSQL) → Consultas API
-
----
-
-## Tecnologías utilizadas
+## Tecnologías
 
 - Python
 - FastAPI
 - PostgreSQL
-- Requests (simulador)
+- psycopg2
 - Uvicorn
+- Swagger
 
----
+## Arquitectura
 
-## Estructura del proyecto
+```text
+Simulador -> Backend FastAPI -> PostgreSQL -> Grafana
+```
 
-backend: API REST y lógica de negocio  
-simulador: generación de datos aleatorios tipo IoT  
-db: scripts y estructura de base de datos  
-docs: documentación del proyecto  
+## Estructura
 
----
+```text
+iot-backend/
+├── app/
+│   ├── core/
+│   │   └── database.py
+│   ├── models/
+│   │   ├── device.py
+│   │   ├── scale_events.py
+│   │   └── telemetry.py
+│   ├── routes/
+│   │   ├── alarms.py
+│   │   ├── device.py
+│   │   ├── scale_events.py
+│   │   └── telemetry.py
+│   └── services/
+│       ├── alarm_service.py
+│       ├── device_service.py
+│       ├── scale_event_service.py
+│       └── telemetry_service.py
+├── main.py
+└── README.md
+```
 
-## Endpoints principales
+## Base De Datos
 
-### POST /telemetry/
-Guarda un nuevo dato de telemetría.
+Base de datos utilizada:
 
-Ejemplo de body:
+```text
+iot_db
+```
+
+Tablas principales:
+
+```text
+devices
+telemetry
+alarms
+scale_events
+```
+
+La conexión está configurada en:
+
+```text
+app/core/database.py
+```
+
+```python
+def get_connection():
+    return psycopg2.connect(
+        host="localhost",
+        database="iot_db",
+        user="postgres",
+        password="1234"
+    )
+```
+
+## Instalación
+
+Entrar en la carpeta del backend:
+
+```powershell
+cd C:\xampp\htdocs\Prácticas\iot-backend
+```
+
+Activar el entorno virtual:
+
+```powershell
+venv\Scripts\activate
+```
+
+Instalar dependencias:
+
+```powershell
+pip install fastapi uvicorn psycopg2-binary requests
+```
+
+## Ejecución
+
+Ejecutar el servidor:
+
+```powershell
+python -m uvicorn main:app --reload
+```
+
+La API estará disponible en:
+
+```text
+http://127.0.0.1:8000
+```
+
+Documentación Swagger:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+## Endpoints
+
+### Dispositivos
+
+```http
+GET /devices/
+POST /devices/
+```
+
+Ejemplo de creación:
+
+```json
+{
+  "name": "Sensor Secadero 2",
+  "type": "temperature_humidity",
+  "location": "Secadero secundario"
+}
+```
+
+### Telemetría
+
+```http
+GET /telemetry/
+POST /telemetry/
+```
+
+Ejemplo de envío:
+
+```json
 {
   "device_id": 1,
-  "temperature": 25.5,
-  "humidity": 60,
-  "timestamp": "2026-04-23T10:00:00"
+  "temperature": 29.5,
+  "humidity": 66,
+  "timestamp": "2026-05-21T13:45:00"
 }
+```
 
----
+Al enviar telemetría, el backend genera alarmas automáticamente si:
 
-### GET /telemetry/
-Devuelve todos los datos almacenados en la base de datos.
+```text
+temperature > 28
+humidity > 65
+```
 
----
+### Alarmas
 
-## Cómo ejecutar el proyecto
+```http
+GET /alarms/
+```
 
-1. Instalar dependencias:
+Ejemplo de respuesta:
 
-pip install fastapi uvicorn psycopg2 requests
+```json
+[
+  {
+    "id": 1,
+    "device_id": 1,
+    "alarm_type": "HIGH_TEMPERATURE",
+    "value": 29.5,
+    "message": "Temperatura demasiado alta",
+    "timestamp": "2026-05-21T13:45:00"
+  }
+]
+```
 
----
+### Eventos De Báscula
 
-2. Iniciar el backend:
+```http
+GET /scale-events/
+POST /scale-events/
+```
 
-uvicorn app.main:app --reload
+Ejemplo de creación:
 
----
+```json
+{
+  "weight": 1250.5,
+  "truck_plate": "1234ABC",
+  "timestamp": "2026-05-21T14:05:00"
+}
+```
 
-3. Ejecutar el simulador:
+## Estado Actual
 
-python simulator/simulator.py
+Funcionalidades implementadas:
 
----
+- Conexión con PostgreSQL
+- Registro y consulta de dispositivos
+- Registro y consulta de telemetría
+- Generación automática de alarmas
+- Consulta de alarmas
+- Registro y consulta de eventos de báscula
+- Pruebas desde Swagger
 
-## Notas
+## Próximos Pasos
 
-- El simulador genera datos automáticamente cada X segundos
-- La API está pensada para ampliarse con alertas, KPIs y dashboards
-- El proyecto es una base para un sistema IoT más completo
+- Añadir filtros por fecha
+- Añadir filtros por dispositivo
+- Crear endpoints de KPIs
+- Preparar consultas para Grafana
+- Integrar Odoo más adelante
