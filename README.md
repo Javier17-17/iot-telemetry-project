@@ -79,11 +79,8 @@ def get_connection():
 
 ## Instalación
 
-Entrar en la carpeta del backend:
+Entrar en la carpeta del backend
 
-```powershell
-cd C:\xampp\htdocs\Prácticas\iot-backend
-```
 
 Activar el entorno virtual:
 
