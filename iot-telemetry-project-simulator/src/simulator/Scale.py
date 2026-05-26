@@ -2,14 +2,11 @@ import random
 from datetime import datetime, timedelta
 import uuid
 
-
-
 class Scale:
     _device_id = None
     _gross_weight = None
     _net_weight = None
     _timestamp = None
-
 
 # CONSTRUCTOR
 
@@ -19,8 +16,7 @@ class Scale:
         #self._gross_weight = random.uniform(1.50, 10.50)
         #self._net_weight = random.uniform(1.50, self._gross_weight)
         #self._timestamp = str(self.timestamp_random())
-        self.weigh_again(self)
-
+        self.weigh_again()
 
 # GETTERS
     def get_gross_weight(self):
@@ -28,9 +24,6 @@ class Scale:
 
     def get_net_weight(self):
         return self._net_weight
-
-    #def get_ticket(self):
-        #return self._ticket
 
 # PULSAR BOTÓN DE TARA
 
@@ -47,7 +40,6 @@ class Scale:
         self._gross_weight = random.uniform(1.50, 10.50)
         self._net_weight = random.uniform(1.50, self._gross_weight)
         self._timestamp = str(self.timestamp_random())
-
 
 # GENERAR FECHA Y HORA RANDOM
 

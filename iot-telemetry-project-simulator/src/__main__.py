@@ -2,7 +2,27 @@ from src.simulator.DataSender import DataSender
 from src.simulator.Drying import Drying
 from src.simulator.JsonConverter import JsonConverter
 from src.simulator.Scale import Scale
-import traceback
+import time
+
+# Simula un dispositivo IoT enviando datos cada 5 segundos
+
+print("Simulador iniciado...")
+
+while True:
+    scale = Scale()
+    drying = Drying()
+
+    scale_data = JsonConverter.json(scale.__dict__)
+    drying_data = JsonConverter.json(drying.__dict__)
+
+    DataSender.send_data(scale_data)
+    DataSender.send_data(drying_data)
+
+    time.sleep(5)
+
+
+"""
+PRUEBAS HECHAS ANTES DE UNIR CON EL BACK-END
 
 # PRIMERA PRUEBA BÁSCULA
 scale = Scale()
@@ -44,3 +64,4 @@ drying_data = JsonConverter.json(drying.__dict__)
 
 print("PRUEBA DATASENDER")
 DataSender.send_data(scale_data)
+"""
