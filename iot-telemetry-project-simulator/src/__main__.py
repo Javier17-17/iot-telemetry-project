@@ -12,14 +12,18 @@ while True:
     scale = Scale()
     drying = Drying()
 
-    scale_data = JsonConverter.json(scale.__dict__)
-    drying_data = JsonConverter.json(drying.__dict__)
+    telemetry_data = JsonConverter.drying_to_telemetry(drying)
+    scale_event_data = JsonConverter.scale_to_event(scale)
 
-    DataSender.send_data(scale_data)
-    DataSender.send_data(drying_data)
+    print("Enviando telemetría:")
+    print(telemetry_data)
+    DataSender.send_telemetry(telemetry_data)
+
+    print("Enviando evento de báscula:")
+    print(scale_event_data)
+    DataSender.send_scale_event(scale_event_data)
 
     time.sleep(5)
-
 
 """
 PRUEBAS HECHAS ANTES DE UNIR CON EL BACK-END
