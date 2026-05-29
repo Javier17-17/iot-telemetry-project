@@ -1,16 +1,15 @@
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
 import uuid
 
+
 class Drying:
-    _device_id= None
+    _device_id = None
     _temperature = None
     _humidity = None
     _timestamp = None
 
-
     # CONSTRUCTOR
-
     def __init__(self):
         self._device_id = str(uuid.uuid4())
         self._temperature = random.randint(1, 25)
@@ -19,7 +18,7 @@ class Drying:
 
         print(self._device_id)
         print(self._temperature, "º")
-        print(self._humidity,"%")
+        print(self._humidity, "%")
         print(self._timestamp)
 
     # GETTERS
@@ -32,18 +31,6 @@ class Drying:
     def get_date_time_drying(self):
         return self._timestamp
 
-    # GENERAR FECHA Y HORA RANDOM
-
+    # GENERAR FECHA Y HORA ACTUAL
     def timestamp_random(self):
-        initial_date = datetime(2010, 1, 1)
-        end_date = datetime.now()
-        delta = end_date - initial_date
-
-        date_random = random.randint(0,delta.days)
-        hour_random = random.randint(0,86400)
-
-        final = initial_date + timedelta(days = date_random, hours = hour_random)
-        return final.strftime('%Y-%m-%d %H:%M:%S')
-
-
-
+        return datetime.now().strftime('%Y-%m-%d %H:%M:%S')
