@@ -117,7 +117,7 @@
                                            "editorMode":  "code",
                                            "format":  "time_series",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  timestamp AS time,\r\n  temperature\r\nFROM telemetry\r\nORDER BY timestamp;",
+                                           "rawSql":  "SELECT\r\n  \"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027 AS time,\r\n  temperature\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\";",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -239,7 +239,7 @@
                                            "editorMode":  "code",
                                            "format":  "time_series",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  timestamp AS time,\r\n  humidity\r\nFROM telemetry\r\nORDER BY timestamp;",
+                                           "rawSql":  "SELECT\r\n  \"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027 AS time,\r\n  humidity\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\";",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -361,7 +361,7 @@
                                            "editorMode":  "code",
                                            "format":  "time_series",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  timestamp AS time,\r\n  temperature,\r\n  humidity\r\nFROM telemetry\r\nORDER BY timestamp;",
+                                           "rawSql":  "SELECT\r\n  \"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027 AS time,\r\n  temperature,\r\n  humidity\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\";",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -447,7 +447,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  temperature\r\nFROM telemetry\r\nORDER BY timestamp DESC\r\nLIMIT 1;",
+                                           "rawSql":  "SELECT\r\n  temperature\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\" DESC\r\nLIMIT 1;",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -533,7 +533,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  humidity\r\nFROM telemetry\r\nORDER BY timestamp DESC\r\nLIMIT 1;",
+                                           "rawSql":  "SELECT\r\n  humidity\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\" DESC\r\nLIMIT 1;",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -618,7 +618,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  id,\r\n  device_id,\r\n  temperature,\r\n  humidity,\r\n  timestamp\r\nFROM telemetry\r\nORDER BY timestamp DESC\r\nLIMIT 10;",
+                                           "rawSql":  "SELECT\r\n  device_id,\r\n  temperature,\r\n  humidity,\r\n  \"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027 AS timestamp\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\" DESC\r\nLIMIT 10;",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -669,5 +669,5 @@
     "timezone":  "browser",
     "title":  "Dashboard Secaderos",
     "uid":  "admhlx6",
-    "version":  9
+    "version":  18
 }

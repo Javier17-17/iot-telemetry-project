@@ -81,7 +81,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT COUNT(*) AS total_mediciones\r\nFROM telemetry;",
+                                           "rawSql":  "SELECT COUNT(*) AS total_mediciones\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027);",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -167,7 +167,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT COUNT(*) AS total_pesajes\r\nFROM scale_events;",
+                                           "rawSql":  "SELECT COUNT(*) AS total_pesajes\r\nFROM scale_events\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027);",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -253,7 +253,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT COUNT(*) AS total_alarmas\r\nFROM alarms;",
+                                           "rawSql":  "SELECT COUNT(*) AS total_alarmas\r\nFROM alarms\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027);",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -339,7 +339,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT ROUND(AVG(temperature)::numeric, 2) AS temperatura_media\r\nFROM telemetry;",
+                                           "rawSql":  "SELECT ROUND(AVG(temperature)::numeric, 2) AS temperatura_media\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027);",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -425,7 +425,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT ROUND(AVG(humidity)::numeric, 2) AS humedad_media\r\nFROM telemetry;",
+                                           "rawSql":  "SELECT ROUND(AVG(humidity)::numeric, 2) AS humedad_media\r\nFROM telemetry\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027);",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -510,7 +510,7 @@
                                            "editorMode":  "code",
                                            "format":  "table",
                                            "rawQuery":  true,
-                                           "rawSql":  "SELECT\r\n  id,\r\n  device_id,\r\n  alarm_type,\r\n  value,\r\n  message,\r\n  timestamp\r\nFROM alarms\r\nORDER BY timestamp DESC\r\nLIMIT 10;",
+                                           "rawSql":  "SELECT\r\n  id,\r\n  device_id,\r\n  alarm_type,\r\n  value,\r\n  message,\r\n  \"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027 AS timestamp\r\nFROM alarms\r\nWHERE $__timeFilter(\"timestamp\" AT TIME ZONE \u0027Europe/Madrid\u0027)\r\nORDER BY \"timestamp\" DESC\r\nLIMIT 10;",
                                            "refId":  "A",
                                            "sql":  {
                                                        "columns":  [
@@ -561,5 +561,5 @@
     "timezone":  "browser",
     "title":  "Dashboard Resumen KPIs",
     "uid":  "adp9bgq",
-    "version":  7
+    "version":  13
 }
