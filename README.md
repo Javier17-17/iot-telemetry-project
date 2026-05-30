@@ -36,8 +36,9 @@ iot-telemetry-project/
 │   └── iot_db_backup.sql
 │
 ├── grafana/
-│   ├── dashboard-secaderos.json
-│   └── dashboard-resumen-kpis.json
+│   ├── dashboard-dryers.json
+│   └── dashboard-summary-kpis.json
+│   └── dashboard-scales.json
 │
 ├── iot-telemetry-project-simulator/
 │   └── src/
@@ -210,8 +211,9 @@ TLS/SSL: disable
 Dashboards exportados:
 
 ```text
-grafana/dashboard-secaderos.json
-grafana/dashboard-resumen-kpis.json
+grafana/dashboard-dryers.json
+grafana/dashboard-summary-kpis.json
+grafana/dashboard-scales.json
 ```
 
 Para importarlos en Grafana:
@@ -223,7 +225,7 @@ Para importarlos en Grafana:
 
 ## Dashboards
 
-### Dashboard Secaderos
+### Dashboard Dryers
 
 Incluye:
 
@@ -234,7 +236,7 @@ Incluye:
 - Última humedad
 - Últimas mediciones
 
-### Dashboard Resumen KPIs
+### Dashboard Summary KPIs
 
 Incluye:
 
@@ -244,6 +246,14 @@ Incluye:
 - Temperatura media
 - Humedad media
 - Últimas alarmas
+
+### Dashboard Scales
+
+Incluye:
+
+- Última pesada
+- Evolución de pesadas
+- Total de pesadas
 
 Los dashboards usan filtros temporales de Grafana para mostrar datos según el rango seleccionado.
 
@@ -262,7 +272,6 @@ Funcionalidades implementadas:
 
 ## Próximos Pasos
 
-- Finalizar dashboard de básculas
 - Añadir endpoint de KPIs en backend
 - Añadir filtros en endpoints de telemetría
 - Mejorar gestión de errores
