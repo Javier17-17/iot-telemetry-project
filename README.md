@@ -9,8 +9,8 @@ Simulador -> Backend FastAPI -> PostgreSQL -> Grafana
 ```
 
 El simulador genera datos de secadero y báscula.  
-El backend recibe esos datos mediante endpoints REST y los guarda en PostgreSQL.  
-Grafana se conecta a PostgreSQL para visualizar la información en dashboards.
+El backend recibe los datos mediante endpoints REST y los guarda en PostgreSQL.  
+Grafana se conecta a PostgreSQL para visualizar los datos.
 
 ## Tecnologías
 
@@ -37,8 +37,8 @@ iot-telemetry-project/
 │
 ├── grafana/
 │   ├── dashboard-dryers.json
+│   ├── dashboard-scales.json
 │   └── dashboard-summary-kpis.json
-│   └── dashboard-scales.json
 │
 ├── iot-telemetry-project-simulator/
 │   └── src/
@@ -64,7 +64,7 @@ alarms
 scale_events
 ```
 
-Archivo de backup/exportación:
+Backup SQL:
 
 ```text
 db/iot_db_backup.sql
@@ -78,7 +78,7 @@ Para importarlo en pgAdmin:
 
 ## Configuración PostgreSQL
 
-El backend usa la conexión definida en:
+La conexión está en:
 
 ```text
 app/core/database.py
@@ -86,14 +86,14 @@ app/core/database.py
 
 Configuración actual:
 
-```python
-host="localhost"
-database="iot_db"
-user="postgres"
-password="1234"
+```text
+host: localhost
+database: iot_db
+user: postgres
+password: 1234
 ```
 
-Si se cambia el usuario, contraseña o nombre de la base de datos, hay que modificar ese archivo.
+Si se cambia la contraseña o el nombre de la base de datos, hay que actualizar ese archivo.
 
 ## Ejecutar Backend
 
@@ -105,7 +105,7 @@ venv\Scripts\activate
 python -m uvicorn main:app --reload
 ```
 
-La API quedará disponible en:
+La API queda disponible en:
 
 ```text
 http://127.0.0.1:8000
@@ -128,14 +128,12 @@ cd iot-telemetry-project-simulator
 python -m src
 ```
 
-El simulador envía datos cada pocos segundos a:
+El simulador envía datos a:
 
 ```text
 POST /telemetry/
 POST /scale-events/
 ```
-
-Actualmente usa fecha y hora actual para que Grafana pueda mostrar datos recientes.
 
 ## Endpoints Principales
 
@@ -146,15 +144,11 @@ GET /telemetry/
 POST /telemetry/
 ```
 
-Ejemplo de `POST /telemetry/`:
+También permite filtros:
 
-```json
-{
-  "device_id": 1,
-  "temperature": 22,
-  "humidity": 40,
-  "timestamp": "2026-05-29T13:15:10"
-}
+```http
+GET /telemetry/?limit=5
+GET /telemetry/?device_id=1&limit=5
 ```
 
 ### Dispositivos
@@ -170,28 +164,35 @@ POST /devices/
 GET /alarms/
 ```
 
-Las alarmas se generan automáticamente al recibir telemetría si:
+Se generan automáticamente si:
 
 ```text
 temperature > 28
 humidity > 65
 ```
 
-### Eventos De Báscula
+### Báscula
 
 ```http
 GET /scale-events/
 POST /scale-events/
 ```
 
-Ejemplo de `POST /scale-events/`:
+### KPIs
 
-```json
-{
-  "weight": 2.83,
-  "truck_plate": "1234ABC",
-  "timestamp": "2026-05-29T13:15:10"
-}
+```http
+GET /kpis/
+```
+
+Devuelve:
+
+```text
+total_measurements
+total_scale_events
+total_alarms
+avg_temperature
+avg_humidity
+latest_telemetry
 ```
 
 ## Grafana
@@ -212,67 +213,34 @@ Dashboards exportados:
 
 ```text
 grafana/dashboard-dryers.json
-grafana/dashboard-summary-kpis.json
 grafana/dashboard-scales.json
+grafana/dashboard-summary-kpis.json
 ```
 
-Para importarlos en Grafana:
+Dashboards disponibles:
 
-1. Ir a `Dashboards`.
-2. Seleccionar `Import`.
-3. Cargar el archivo JSON.
-4. Seleccionar la fuente de datos PostgreSQL.
+- Secaderos
+- Básculas
+- Resumen/KPIs
 
-## Dashboards
-
-### Dashboard Dryers
-
-Incluye:
-
-- Temperatura por tiempo
-- Humedad por tiempo
-- Temperatura y humedad
-- Última temperatura
-- Última humedad
-- Últimas mediciones
-
-### Dashboard Summary KPIs
-
-Incluye:
-
-- Total de mediciones
-- Total de pesajes
-- Total de alarmas
-- Temperatura media
-- Humedad media
-- Últimas alarmas
-
-### Dashboard Scales
-
-Incluye:
-
-- Última pesada
-- Evolución de pesadas
-- Total de pesadas
-
-Los dashboards usan filtros temporales de Grafana para mostrar datos según el rango seleccionado.
+Los dashboards usan filtros temporales para funcionar con rangos como `Last 15 minutes` o `Last 1 hour`.
 
 ## Estado Actual
 
-Funcionalidades implementadas:
+Implementado:
 
-- Backend FastAPI funcionando
-- PostgreSQL conectado
-- Simulador integrado con backend
-- Inserción de datos de telemetría
-- Inserción de eventos de báscula
+- Backend FastAPI conectado a PostgreSQL
+- Simulador integrado con el backend
+- Inserción y consulta de telemetría
+- Inserción y consulta de eventos de báscula
 - Generación automática de alarmas
-- Dashboards de Grafana creados y exportados
-- Backup SQL de base de datos incluido
+- Endpoint de KPIs
+- Filtros básicos en telemetría
+- Dashboards de Grafana
+- Backup SQL de la base de datos
 
 ## Próximos Pasos
 
-- Añadir endpoint de KPIs en backend
-- Añadir filtros en endpoints de telemetría
-- Mejorar gestión de errores
-- Preparar integración con Odoo más adelante
+- Hacer prueba completa desde cero
+- Revisar documentación final
+- Integrar Odoo más adelante si es necesario
