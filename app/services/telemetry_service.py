@@ -52,16 +52,25 @@ def insert_telemetry(data):
     conn.close()
 
 
-def get_all_telemetry():
+def get_all_telemetry(device_id=None, limit=100):
     conn = get_connection()
     cursor = conn.cursor()
 
-    cursor.execute("""
+    query = """
         SELECT id, device_id, temperature, humidity, timestamp
         FROM telemetry
-        ORDER BY timestamp DESC
-    """)
+    """
 
+    params = []
+
+    if device_id is not None:
+        query += " WHERE device_id = %s"
+        params.append(device_id)
+
+    query += " ORDER BY timestamp DESC LIMIT %s"
+    params.append(limit)
+
+    cursor.execute(query, params)
     rows = cursor.fetchall()
 
     cursor.close()
