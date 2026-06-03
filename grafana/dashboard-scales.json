@@ -109,10 +109,10 @@
             "transformations": []
           }
         },
-        "description": "Last weight",
+        "description": "Gauge/Last weight",
         "id": 1,
         "links": [],
-        "title": "Gauge",
+        "title": "Última pesaje",
         "vizConfig": {
           "group": "stat",
           "kind": "VizConfig",
@@ -243,10 +243,10 @@
             "transformations": []
           }
         },
-        "description": "Weight evolution",
+        "description": "Time series/Weight evolution",
         "id": 2,
         "links": [],
-        "title": "Time series",
+        "title": "Evolución de pesajes",
         "vizConfig": {
           "group": "timeseries",
           "kind": "VizConfig",
@@ -382,9 +382,9 @@
         "description": "Truck_plate +  Weight + Timestamp ",
         "id": 3,
         "links": [],
-        "title": "Weight table",
+        "title": "Tabla de pesajes",
         "vizConfig": {
-          "group": "timeseries",
+          "group": "table",
           "kind": "VizConfig",
           "spec": {
             "fieldConfig": {
@@ -393,38 +393,14 @@
                   "mode": "palette-classic"
                 },
                 "custom": {
-                  "axisBorderShow": false,
-                  "axisCenteredZero": false,
-                  "axisColorMode": "text",
-                  "axisLabel": "",
-                  "axisPlacement": "auto",
-                  "barAlignment": 0,
-                  "barWidthFactor": 0.6,
-                  "drawStyle": "line",
-                  "fillOpacity": 0,
-                  "gradientMode": "none",
-                  "hideFrom": {
-                    "legend": false,
-                    "tooltip": false,
-                    "viz": false
+                  "align": "auto",
+                  "cellOptions": {
+                    "type": "auto"
                   },
-                  "insertNulls": false,
-                  "lineInterpolation": "linear",
-                  "lineWidth": 1,
-                  "pointSize": 5,
-                  "scaleDistribution": {
-                    "type": "linear"
+                  "footer": {
+                    "reducers": []
                   },
-                  "showPoints": "auto",
-                  "showValues": false,
-                  "spanNulls": false,
-                  "stacking": {
-                    "group": "A",
-                    "mode": "none"
-                  },
-                  "thresholdsStyle": {
-                    "mode": "off"
-                  }
+                  "inspect": false
                 },
                 "thresholds": {
                   "mode": "absolute",
@@ -443,21 +419,8 @@
               "overrides": []
             },
             "options": {
-              "annotations": {
-                "clustering": -1,
-                "multiLane": false
-              },
-              "legend": {
-                "calcs": [],
-                "displayMode": "list",
-                "placement": "bottom",
-                "showLegend": true
-              },
-              "tooltip": {
-                "hideZeros": false,
-                "mode": "single",
-                "sort": "none"
-              }
+              "cellHeight": "sm",
+              "showHeader": true
             }
           },
           "version": "13.0.1+security-01"
@@ -538,11 +501,11 @@
       "1d"
     ],
     "fiscalYearStartMonth": 0,
-    "from": "2025-09-07T14:05:00.000Z",
+    "from": "now-2y",
     "hideTimepicker": false,
     "timezone": "browser",
-    "to": "2027-02-01T14:05:00.000Z"
+    "to": "now"
   },
-  "title": "weight evolution",
+  "title": "Dashboard Básculas",
   "variables": []
 }
