@@ -1,6 +1,6 @@
 # IoT Telemetry Project
 
-Proyecto de telemetría IoT industrial con backend en FastAPI, base de datos PostgreSQL, simulador de datos y dashboards en Grafana.
+Proyecto de telemetria IoT industrial con backend en FastAPI, base de datos PostgreSQL, simulador de datos y dashboards en Grafana.
 
 ## Arquitectura
 
@@ -8,11 +8,11 @@ Proyecto de telemetría IoT industrial con backend en FastAPI, base de datos Pos
 Simulador -> Backend FastAPI -> PostgreSQL -> Grafana
 ```
 
-El simulador genera datos de secadero y báscula.  
-El backend recibe los datos mediante endpoints REST y los guarda en PostgreSQL.  
+El simulador genera datos de secadero y bascula.
+El backend recibe los datos mediante endpoints REST y los guarda en PostgreSQL.
 Grafana se conecta a PostgreSQL para visualizar los datos.
 
-## Tecnologías
+## Tecnologias
 
 - Python
 - FastAPI
@@ -21,33 +21,92 @@ Grafana se conecta a PostgreSQL para visualizar los datos.
 - Uvicorn
 - Requests
 - Grafana
+- Docker / Docker Compose
 
-## Estructura Principal
+## Estructura principal
 
 ```text
 iot-telemetry-project/
-├── app/
-│   ├── core/
-│   ├── models/
-│   ├── routes/
-│   └── services/
-│
-├── db/
-│   └── iot_db_backup.sql
-│
-├── grafana/
-│   ├── dashboard-dryers.json
-│   ├── dashboard-scales.json
-│   └── dashboard-summary-kpis.json
-│
-├── iot-telemetry-project-simulator/
-│   └── src/
-│
-├── main.py
-└── README.md
+â”œâ”€â”€ app/
+â”‚   â”œâ”€â”€ core/
+â”‚   â”œâ”€â”€ models/
+â”‚   â”œâ”€â”€ routes/
+â”‚   â””â”€â”€ services/
+â”œâ”€â”€ db/
+â”‚   â””â”€â”€ iot_db_backup.sql
+â”œâ”€â”€ grafana/
+â”‚   â”œâ”€â”€ dashboard-dryers.json
+â”‚   â”œâ”€â”€ dashboard-scales.json
+â”‚   â”œâ”€â”€ dashboard-summary-kpis.json
+â”‚   â””â”€â”€ provisioning/
+â”œâ”€â”€ iot-telemetry-project-simulator/
+â”‚   â””â”€â”€ src/
+â”œâ”€â”€ docker-compose.yml
+â”œâ”€â”€ Dockerfile
+â”œâ”€â”€ requirements.txt
+â”œâ”€â”€ main.py
+â””â”€â”€ README.md
 ```
 
-## Base De Datos
+## Ejecucion con Docker
+
+Requisito:
+
+```text
+Docker Desktop
+```
+
+Desde la raiz del proyecto:
+
+```powershell
+docker compose up --build
+```
+
+Servicios disponibles:
+
+```text
+Backend: http://localhost:8000
+Swagger: http://localhost:8000/docs
+Grafana: http://localhost:3001
+PostgreSQL Docker: localhost:5433
+```
+
+Credenciales de Grafana:
+
+```text
+Usuario: admin
+Password: 1234
+```
+
+La base de datos se inicializa automaticamente con:
+
+```text
+db/iot_db_backup.sql
+```
+
+Grafana carga automaticamente:
+
+```text
+grafana/dashboard-dryers.json
+grafana/dashboard-scales.json
+grafana/dashboard-summary-kpis.json
+```
+
+Para parar los contenedores:
+
+```powershell
+docker compose down
+```
+
+Para borrar tambien los volumenes y reiniciar la base desde el backup:
+
+```powershell
+docker compose down -v
+```
+
+## Ejecucion local sin Docker
+
+### Base de datos
 
 Base de datos utilizada:
 
@@ -76,31 +135,12 @@ Para importarlo en pgAdmin:
 2. Abrir `Query Tool`.
 3. Ejecutar el contenido de `db/iot_db_backup.sql`.
 
-## Configuración PostgreSQL
+### Backend
 
-La conexión está en:
-
-```text
-app/core/database.py
-```
-
-Configuración actual:
-
-```text
-host: localhost
-database: iot_db
-user: postgres
-password: 1234
-```
-
-Si se cambia la contraseña o el nombre de la base de datos, hay que actualizar ese archivo.
-
-## Ejecutar Backend
-
-Desde la raíz del proyecto:
+Desde la raiz del proyecto:
 
 ```powershell
-cd C:\xampp\htdocs\Prácticas\iot-backend
+cd C:\xampp\htdocs\Practicas\iot-backend
 venv\Scripts\activate
 python -m uvicorn main:app --reload
 ```
@@ -117,34 +157,61 @@ Swagger:
 http://127.0.0.1:8000/docs
 ```
 
-## Ejecutar Simulador
+### Simulador
 
 Con el backend encendido, abrir otra terminal:
 
 ```powershell
-cd C:\xampp\htdocs\Prácticas\iot-backend
+cd C:\xampp\htdocs\Practicas\iot-backend
 venv\Scripts\activate
 cd iot-telemetry-project-simulator
 python -m src
 ```
 
-El simulador envía datos a:
+El simulador envia datos a:
 
 ```text
 POST /telemetry/
 POST /scale-events/
 ```
 
-## Endpoints Principales
+## Configuracion PostgreSQL
 
-### Telemetría
+La conexion esta en:
+
+```text
+app/core/database.py
+```
+
+Por defecto usa:
+
+```text
+host: localhost
+database: iot_db
+user: postgres
+password: 1234
+```
+
+En Docker se configura mediante variables de entorno:
+
+```text
+DB_HOST
+DB_PORT
+DB_NAME
+DB_USER
+DB_PASSWORD
+```
+
+## Endpoints principales
+
+### Telemetria
 
 ```http
 GET /telemetry/
 POST /telemetry/
 ```
 
-También permite filtros:
+Filtros:
 
 ```http
 GET /telemetry/?limit=5
@@ -164,14 +231,14 @@ POST /devices/
 GET /alarms/
 ```
 
-Se generan automáticamente si:
+Se generan automaticamente si:
 
 ```text
 temperature > 28
 humidity > 65
 ```
 
-### Báscula
+### Bascula
 
 ```http
 GET /scale-events/
@@ -197,50 +264,36 @@ latest_telemetry
 
 ## Grafana
 
-Grafana se conecta directamente a PostgreSQL.
-
-Configuración de la fuente de datos:
-
-```text
-Host: localhost:5432
-Database: iot_db
-User: postgres
-Password: 1234
-TLS/SSL: disable
-```
-
-Dashboards exportados:
-
-```text
-grafana/dashboard-dryers.json
-grafana/dashboard-scales.json
-grafana/dashboard-summary-kpis.json
-```
-
 Dashboards disponibles:
 
 - Secaderos
-- Básculas
+- Basculas
 - Resumen/KPIs
 
-Los dashboards usan filtros temporales para funcionar con rangos como `Last 15 minutes` o `Last 1 hour`.
+Los dashboards usan filtros temporales para funcionar con rangos como:
 
-## Estado Actual
+```text
+Last 15 minutes
+Last 1 hour
+```
+
+## Estado actual
 
 Implementado:
 
 - Backend FastAPI conectado a PostgreSQL
 - Simulador integrado con el backend
-- Inserción y consulta de telemetría
-- Inserción y consulta de eventos de báscula
-- Generación automática de alarmas
+- Insercion y consulta de telemetria
+- Insercion y consulta de eventos de bascula
+- Generacion automatica de alarmas
 - Endpoint de KPIs
-- Filtros básicos en telemetría
+- Filtros basicos en telemetria
 - Dashboards de Grafana
 - Backup SQL de la base de datos
+- Despliegue reproducible con Docker Compose
 
-## Próximos Pasos
+## Proximos pasos
 
-- Hacer prueba completa desde cero
-- Revisar documentación final
-- Integrar Odoo más adelante si es necesario
+- Probar Docker desde cero en otro equipo
+- Revisar documentacion final
+- Integrar Odoo mas adelante si es necesario

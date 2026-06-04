@@ -1,4 +1,4 @@
-﻿{
+{
     "annotations":  {
                         "list":  [
                                      {
@@ -470,7 +470,7 @@
                                                    }
                                        }
                                    ],
-                       "title":  "Ãltima temperatura",
+                       "title":  "Ultima temperatura",
                        "type":  "stat"
                    },
                    {
@@ -556,7 +556,7 @@
                                                    }
                                        }
                                    ],
-                       "title":  "Ãltima humedad",
+                       "title":  "Ultima humedad",
                        "type":  "stat"
                    },
                    {
@@ -641,7 +641,7 @@
                                                    }
                                        }
                                    ],
-                       "title":  "Ãltimas mediciones",
+                       "title":  "Ultimas mediciones",
                        "type":  "table"
                    }
                ],
@@ -669,5 +669,5 @@
     "timezone":  "browser",
     "title":  "Dashboard Secaderos",
     "uid":  "admhlx6",
-    "version":  18
+    "version":  19
 }

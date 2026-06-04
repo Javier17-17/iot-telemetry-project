@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:18
+    container_name: iot_postgres
+    environment:
+      POSTGRES_DB: iot_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./db/iot_db_backup.sql:/docker-entrypoint-initdb.d/01_iot_db_backup.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d iot_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    container_name: iot_backend
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: iot_db
+      DB_USER: postgres
+      DB_PASSWORD: 1234
+    ports:
+      - "8000:8000"
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: iot_grafana
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: 1234
+    ports:
+      - "3001:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./grafana:/var/lib/grafana/dashboards:ro
+
+volumes:
+  postgres_data:
+  grafana_data:

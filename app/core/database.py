@@ -1,12 +1,15 @@
+import os
+
 import psycopg2
 
-# Función para conectarse a PostgreSQL
-# Se reutiliza en todo el proyecto
+# Funcion para conectarse a PostgreSQL.
+# Usa variables de entorno en Docker y valores locales por defecto.
 
 def get_connection():
     return psycopg2.connect(
-        host="localhost",
-        database="iot_db",
-        user="postgres",
-        password="1234"
+        host=os.getenv("DB_HOST", "localhost"),
+        port=os.getenv("DB_PORT", "5432"),
+        database=os.getenv("DB_NAME", "iot_db"),
+        user=os.getenv("DB_USER", "postgres"),
+        password=os.getenv("DB_PASSWORD", "1234")
     )

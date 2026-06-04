@@ -1,4 +1,4 @@
-﻿{
+{
     "annotations":  {
                         "list":  [
                                      {
@@ -533,7 +533,7 @@
                                                    }
                                        }
                                    ],
-                       "title":  "Ãltimas alarmas",
+                       "title":  "Ultimas alarmas",
                        "type":  "table"
                    }
                ],
@@ -561,5 +561,5 @@
     "timezone":  "browser",
     "title":  "Dashboard Resumen KPIs",
     "uid":  "adp9bgq",
-    "version":  13
+    "version":  14
 }

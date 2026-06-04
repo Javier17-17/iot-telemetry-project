@@ -1,0 +1,18 @@
+apiVersion: 1
+
+datasources:
+  - name: PostgreSQL - iot_db
+    uid: bfnbrhgxsr1fkb
+    type: grafana-postgresql-datasource
+    access: proxy
+    url: db:5432
+    database: iot_db
+    user: postgres
+    secureJsonData:
+      password: "1234"
+    jsonData:
+      sslmode: disable
+      postgresVersion: 1800
+      timescaledb: false
+    isDefault: true
+    editable: true
