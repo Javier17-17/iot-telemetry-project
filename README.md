@@ -244,3 +244,9 @@ Implementado:
 - Hacer prueba completa desde cero
 - Revisar documentación final
 - Integrar Odoo más adelante si es necesario
+
+## Enlaces a drive
+- Memoria técnica:
+  https://docs.google.com/document/d/1C8_U_U42fcCT8gRmF4g4ekj3xwPEQLh1j2lcCkqg1Gw/edit?tab=t.0
+- Instrucciones de instalación:
+  https://docs.google.com/document/d/1E4RkOAvJt63hg2NI5PAdFhsly5ZLQ6dm0Jf-ZPPFiIU/edit?tab=t.0
