@@ -27,25 +27,29 @@ Grafana se conecta a PostgreSQL para visualizar los datos.
 
 ```text
 iot-telemetry-project/
-â”œâ”€â”€ app/
-â”‚   â”œâ”€â”€ core/
-â”‚   â”œâ”€â”€ models/
-â”‚   â”œâ”€â”€ routes/
-â”‚   â””â”€â”€ services/
-â”œâ”€â”€ db/
-â”‚   â””â”€â”€ iot_db_backup.sql
-â”œâ”€â”€ grafana/
-â”‚   â”œâ”€â”€ dashboard-dryers.json
-â”‚   â”œâ”€â”€ dashboard-scales.json
-â”‚   â”œâ”€â”€ dashboard-summary-kpis.json
-â”‚   â””â”€â”€ provisioning/
-â”œâ”€â”€ iot-telemetry-project-simulator/
-â”‚   â””â”€â”€ src/
-â”œâ”€â”€ docker-compose.yml
-â”œâ”€â”€ Dockerfile
-â”œâ”€â”€ requirements.txt
-â”œâ”€â”€ main.py
-â””â”€â”€ README.md
+├── app/
+│   ├── core/
+│   ├── models/
+│   ├── routes/
+│   └── services/
+│
+├── db/
+│   └── iot_db_backup.sql
+│
+├── grafana/
+│   ├── dashboard-dryers.json
+│   ├── dashboard-scales.json
+│   └── dashboard-summary-kpis.json
+│   └── provisioning/
+│
+├── iot-telemetry-project-simulator/
+│   └── src/
+│
+├──doquer-compose.yml
+├──Dockerfile
+├──requirements.txt
+├── main.py
+└── README.md
 ```
 
 ## Ejecucion con Docker
