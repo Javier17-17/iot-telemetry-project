@@ -39,15 +39,15 @@ iot-telemetry-project/
 ├── grafana/
 │   ├── dashboard-dryers.json
 │   ├── dashboard-scales.json
-│   └── dashboard-summary-kpis.json
+│   ├── dashboard-summary-kpis.json
 │   └── provisioning/
 │
 ├── iot-telemetry-project-simulator/
 │   └── src/
 │
-├──doquer-compose.yml
-├──Dockerfile
-├──requirements.txt
+├── docker-compose.yml
+├── Dockerfile
+├── requirements.txt
 ├── main.py
 └── README.md
 ```
@@ -304,4 +304,5 @@ Implementado:
 
 ## Enlaces a drive
 Memoria técnica: https://docs.google.com/document/d/1C8_U_U42fcCT8gRmF4g4ekj3xwPEQLh1j2lcCkqg1Gw/edit?tab=t.0
+
 Instrucciones de instalación: https://docs.google.com/document/d/1E4RkOAvJt63hg2NI5PAdFhsly5ZLQ6dm0Jf-ZPPFiIU/edit?tab=t.0
